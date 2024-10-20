@@ -4,7 +4,9 @@ import "../../css/Header.css"
 const Header = () => {
   return (
     <header>
-        <img src="/images/Logo.png" alt="Logo" loading="lazy" width={200} height={150}/>
+        <h1 className="logo">
+            Notes-Lee
+        </h1>
         <Button label="Sign In" redirect="/auth" />
     </header>
   )
