@@ -4,7 +4,12 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f5f5f5;
+    background: radial-gradient(
+        circle,
+        rgb(5, 124, 139),
+        rgba(36, 0, 242, 0.6)
+    );
+    color: aliceblue;
 }
 
 .home_content{

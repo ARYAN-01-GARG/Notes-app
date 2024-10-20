@@ -4,7 +4,7 @@ import "../css/Notes.css"
 
 const Notes = () => {
   return (
-    <div>
+    <div className="notes-page">
         <Header/>
         <Outlet/>
     </div>

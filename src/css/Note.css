@@ -1,0 +1,11 @@
+.show-note{
+    margin: 2rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.show-note h2{
+    font-size: 2rem;
+}

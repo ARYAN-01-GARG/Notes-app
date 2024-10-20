@@ -1,13 +1,114 @@
-aside{
-    width: 240px;
-    height: 100%;
-    background-color: #e9e5e5;
-    float: left;
-    padding: 10px;
+.notes-area{
+    margin: 2rem 2rem;
+    padding: 0 1rem;
 }
 
+.heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 10px;
+}
+
+.heading h1{
+    font-size: 3rem;
+    padding: 0.25rem 1rem;
+}
+
+.search-box{
+    position: relative;
+    font-size: 1.5rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.search-box input{
+    font: inherit;
+    outline: none;
+    padding: 1.5rem 2rem 0.5rem 1rem;
+    border-radius: .5rem;
+    border: 3px solid #333;
+}
+
+.search-box label{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    color: #000;
+}
+
+.search-box:focus-within label{
+    top: 2px;
+    left:-2px;
+    scale: 0.7;
+    transition: 0.2s;
+}
+
+.note{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #091b1a74;
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.note h3{
+    font-size: 1.5rem;
+    margin: 1rem 0;
+}
+
+.note p{
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.time{
+    font-size: 0.8rem;
+    color: #f1356d;
+    padding-top: 2rem;
+}
+
+.note button{
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 0.5rem;
+    background: #f1356d;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+
+
+
+
+
+
+
 @media screen and (max-width: 768px){
-    aside{
-        display: none;
+    .notes-area{
+        margin: 1rem 1rem;
+    }
+    .heading{
+        display: block;
+    }
+    .heading h1{
+        font-size: 2rem;
+    }
+
+    .search-box{
+        max-width: 300px;
+        margin: -10px;
+    }
+    .note{
+        display: block;
     }
 }
