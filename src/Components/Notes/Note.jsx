@@ -27,6 +27,7 @@ const Note = () => {
   };
 
   const handleSave = () => {
+    // Simulate saving the note (e.g., update local storage or send to backend)
     const updatedNotes = notesData.map(n => n.id === id ? note : n);
     console.log('Updated notes:', updatedNotes);
     setIsChanged(false);
@@ -34,6 +35,7 @@ const Note = () => {
   };
 
   const handleDelete = () => {
+    // Simulate deleting the note (e.g., update local storage or send to backend)
     const updatedNotes = notesData.filter(n => n.id !== id);
     console.log('Updated notes after deletion:', updatedNotes);
     navigate('/notes');

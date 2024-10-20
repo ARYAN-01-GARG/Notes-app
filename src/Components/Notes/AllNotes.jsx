@@ -44,14 +44,9 @@ const AllNotes = () => {
                 </form>
             </div>
             <div>
-                {filteredNotes.length === 0 ? (
-                    <div className="no-notes">
-                        <h2>No notes found</h2>
-                    </div>
-                ) :
-                filteredNotes.map((note,index) => (
-                    <div key={note.id} className="note">
-                        <div onClick={() => handleNoteClick(note.id)}>
+                {filteredNotes.map((note,index) => (
+                    <div key={note.id} className="note" onClick={() => handleNoteClick(note.id)}>
+                        <div>
                             <h3>{note.title}</h3>
                             <p>{note.content.length > 80 ? `${note.content.substring(0, 80)}...` : note.content}</p>
                             <p className="time">{note.created_at.toString()}</p>
