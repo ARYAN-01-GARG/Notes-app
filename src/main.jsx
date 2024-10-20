@@ -1,10 +1,27 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import App from './App';
+import './index.css';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+// cheecking for extension or browser
+const isExtension = () => {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.chrome !== 'undefined' &&
+    window.chrome.runtime &&
+    window.chrome.runtime.id
+  );
+};
+
+const Router = isExtension() ? MemoryRouter : BrowserRouter;
+const rootElement = document.getElementById('root');
+
+// Create a root with React 18's createRoot
+const root = ReactDOM.createRoot(rootElement);
+
+// Render the app within the appropriate Router
+root.render(
+  <Router>
     <App />
-  </StrictMode>,
-)
+  </Router>
+);
