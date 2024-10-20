@@ -1,0 +1,13 @@
+aside{
+    width: 240px;
+    height: 100%;
+    background-color: #e9e5e5;
+    float: left;
+    padding: 10px;
+}
+
+@media screen and (max-width: 768px){
+    aside{
+        display: none;
+    }
+}
