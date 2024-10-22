@@ -12,8 +12,6 @@ export const UserProvider = ({ children }) => {
     const [sessionId, setSessionId] = useState("");
     const [notes, setNotes] = useState([]);
 
-
-
     return (
         <UserContext.Provider value={{
             user, setUser,
