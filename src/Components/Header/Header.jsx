@@ -7,7 +7,7 @@ const Header = () => {
         <h1 className="logo">
             Notes-Lee
         </h1>
-        <Button label="Sign In" redirect="/auth" />
+        <Button label="Sign In" redirectURL="/login" />
     </header>
   )
 }

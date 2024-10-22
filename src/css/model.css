@@ -1,0 +1,144 @@
+.model-back{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0;
+}
+
+.model{
+    padding: 1rem 1rem;
+    background: #f0f0f0;
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: black;
+    border-radius: 5px;
+}
+.model-header{
+    display: flex;
+    padding: 10px;
+    gap: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #130032;
+    margin-bottom: 1rem;
+}
+
+.model-header h1{
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.model-header h1,h3{
+    margin: 5px;
+}
+
+.model-header h3{
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.model h3{
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: -1rem;
+    padding: 0;
+}
+
+.model p{
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 5px;
+}
+
+.model-form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 1rem;
+}
+
+.input-field{
+    position: relative;
+    width: 100%;
+    font-size: 1.3rem;
+}
+
+.input-field input{
+    width: 90%;
+    padding: 1.5rem 1rem 0.5rem 1.5rem;
+    font: inherit;
+    outline: none;
+    border: 2px solid #444344b3;
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.input-field label{
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    transform: translateY(-50%);
+    color: rgb(85, 83, 83);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.input-field input:focus+label,
+.input-field input:not(:placeholder-shown)+label {
+    top: 1px;
+    left: 13px;
+    color: rgb(85, 83, 83);
+    background: #f0f0f0;
+    padding: 2px;
+    font-size: 1rem;
+}
+
+.model-form button{
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #f0f0f0;
+    background-color: #130032;
+    border-radius: 10px;
+}
+
+.model-footer{
+    position: relative;
+    border-top: 1px solid #130032;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1rem;
+}
+
+.model-footer::after{
+    content: "OR";
+    font-size: 0.8rem;
+    position: absolute;
+    padding: 2px;
+    top: -8px;
+    left: 50%;
+    background-color: #f0f0f0;
+}
+
+.model-footer a{
+    margin: 0 3px;
+    font-weight: 500;
+    color: #130032;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.model-footer a:hover{
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+

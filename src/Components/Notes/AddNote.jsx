@@ -1,50 +1,67 @@
-import { string } from "prop-types"
-import PropTypes from "prop-types"
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../../css/Note.css';
+import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
 
-AddNote.proptypes = {
-  notes: PropTypes.arrayOf(PropTypes.shape({string})).isRequired,
-}
+const AddNote = () => {
+  const navigate = useNavigate();
+  const [note, setNote] = useState({ title: "Title", description: "Add your Content here"});
+  const {sessionId } = useContext(UserContext);;
 
-const AddNote = ({
-  notes,
-  setNotes
-}) => {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!title) {
-      alert('Title is required')
-      return
+  useEffect(() => {
+    if (!sessionId) {
+      return navigate('/login');
     }
-    if (!description) {
-      alert('Description is required')
-      return
+  }, [sessionId, navigate]);
+
+  const addNote = async () => {
+    try {
+      await axios.post("https://notes-backend-x9sp.onrender.com/notes", note ,{
+        headers: {
+          'Authorization': `Bearer ${sessionId}`
+        }
+      }).then(() => {alert("Note added successfully")});
+      navigate('/notes');
+
+    } catch (error) {
+      console.error("Error adding note:", error);
     }
+  };
 
-    const note = { title, description, created_at: new Date().toISOString() };
-    setNotes([note, ...notes]);
+  const handleTitleChange = (e) => {
+    setNote(prevNote => ({ ...prevNote, title: e.target.value }));
+  };
 
-    setTitle('')
-    setDescription('')
-  }
+  const handleContentChange = (e) => {
+    setNote(prevNote => ({ ...prevNote, description: e.target.value }));
+  };
+
+  const handleBack = () => {
+    navigate('/notes');
+  };
+
   return (
-    <div>
-      <div>
-        <h1>
-          Add Your Note
-        </h1>
-        <div>
-          <form>
-            <label htmlFor="title" style={{position:"absolute",left:"99999px"}}>Title</label>
-            <input type="text" id="title" value={title} />
-          </form>
-        </div>
-
+    <form className='show-note' onSubmit={(e) => e.preventDefault()}>
+      <h2>
+        <input
+          type="text"
+          value={note.title}
+          onChange={handleTitleChange}
+          placeholder=""
+        />
+      </h2>
+      <textarea
+        value={note.description}
+        onChange={handleContentChange}
+        placeholder=""
+      />
+      <div className='btns'>
+        <button type="button" className='button' onClick={addNote}>Save</button>
+        <button type="button" className='button' onClick={handleBack}>Back</button>
       </div>
-    </div>
-  )
-}
+    </form>
+  );
+};
 
-export default AddNote
+export default AddNote;
