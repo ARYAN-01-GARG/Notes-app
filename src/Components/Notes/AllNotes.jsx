@@ -35,14 +35,15 @@ const AllNotes = () => {
         note.description.toLowerCase().includes(search.toLowerCase())
     );
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (note) => {
         try {
-            await axios.delete(`https://notes-backend-x9sp.onrender.com/notes/${id}`, {
+            await axios.delete(`https://notes-backend-x9sp.onrender.com/notes/${note._id}`, {
                 headers: {
-                    'Authorization': `Bearer ${sessionId}`
+                    'Authorization': `Bearer ${sessionId}`,
+                    "Content-Type": "application/json",
                 }
             });
-            const updatedNotes = notes.filter(n => n.note_id !== id);
+            const updatedNotes = notes.filter(n => n.note_id !== note.note_id);
             setNotes(updatedNotes);
             localStorage.setItem('notes', JSON.stringify(updatedNotes));
         } catch (error) {
@@ -50,8 +51,8 @@ const AllNotes = () => {
         }
     }
 
-    const handleNoteClick = (id) => {
-        navigate(`/notes/${id}`);
+    const handleNoteClick = (note) => {
+        navigate(`/notes/${note._id}`);
     }
 
 return (
@@ -79,12 +80,12 @@ return (
                         <p>No notes found</p> :
                 filteredNotes.map((note) => (
                         <div key={note.note_id} className="note">
-                                <div onClick={() => handleNoteClick(note.note_id)}>
+                                <div onClick={() => handleNoteClick(note)}>
                                         <h3>{note.title}</h3>
                                         <p>{note.description.length > 80 ? `${note.description.substring(0, 80)}...` : note.description}</p>
                                         <p>{new Date(note.created_at).toLocaleDateString()}</p>
                                 </div>
-                                <button onClick={()=> handleDelete(note.id)}>Delete</button>
+                                <button onClick={()=> handleDelete(note)}>Delete</button>
                         </div>
                 ))}
             </div>

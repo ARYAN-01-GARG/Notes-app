@@ -1,22 +1,64 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../../css/Note.css';
+import { UserContext } from '../../context/UserContext';
 
 const Note = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [note, setNote] = useState({ title: "", content: "", created_at: "" });
+  const [note, setNote] = useState({ title: "", description: "" });
   const [isChanged, setIsChanged] = useState(false);
-  const [notes, setNotes] = useState([]);
+  const { sessionId, notes, setNotes } = useContext(UserContext);
+
+  const getNote = async () => {
+    try {
+      const response = await axios.get(`https://notes-backend-x9sp.onrender.com/notes/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionId}`,
+        }
+      });
+      setNote(response.data.data);
+    } catch (error) {
+      console.error("Error fetching note:", error);
+    }
+  };
+
+  const updateNote = async () => {
+    try {
+      const response = await axios.put(`https://notes-backend-x9sp.onrender.com/notes/${id}`, note, {
+        headers: {
+          'Authorization': `Bearer ${sessionId}`,
+        }
+      });
+      const updatedNote = response.data.data;
+      const updatedNotes = notes.map(n => n._id === id ? updatedNote : n);
+      setNotes(updatedNotes);
+      setIsChanged(false);
+      navigate('/notes');
+    } catch (error) {
+      console.error("Error updating note:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`https://notes-backend-x9sp.onrender.com/notes/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionId}`,
+        }
+      });
+      const updatedNotes = notes.filter(n => n._id !== id);
+      setNotes(updatedNotes);
+      navigate('/notes');
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
+  };
 
   useEffect(() => {
-    const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
-    setNotes(storedNotes);
-    const foundNote = storedNotes.find(note => note.id === id);
-    if (foundNote) {
-      setNote(foundNote);
-    }
-  }, [id]);
+    getNote();
+  }, [getNote]);
 
   const handleTitleChange = (e) => {
     setNote(prevNote => ({ ...prevNote, title: e.target.value }));
@@ -24,49 +66,38 @@ const Note = () => {
   };
 
   const handleContentChange = (e) => {
-    setNote(prevNote => ({ ...prevNote, content: e.target.value }));
+    setNote(prevNote => ({ ...prevNote, description: e.target.value }));
     setIsChanged(true);
   };
 
   const handleSave = () => {
-    const updatedNotes = notes.map(n => n.id === id ? note : n);
-    setNotes(updatedNotes);
-    localStorage.setItem('notes', JSON.stringify(updatedNotes));
-    setIsChanged(false);
-    navigate('/notes');
-  };
-
-  const handleDelete = () => {
-    const updatedNotes = notes.filter(n => n.id !== id);
-    setNotes(updatedNotes);
-    localStorage.setItem('notes', JSON.stringify(updatedNotes));
-    navigate('/notes');
+    updateNote();
   };
 
   const handleBack = () => {
     navigate('/notes');
   };
 
-  if (!note.id) {
-    return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "2rem", height: "100vh" }}>Note not found</div>;
-  }
-
   return (
     <form className='show-note' onSubmit={(e) => e.preventDefault()}>
-        <input
-            type="text"
-            value={note.title}
-            onChange={handleTitleChange}
-            maxLength={50}
-        />
-        <textarea
-            value={note.content}
-            onChange={handleContentChange}
-        />
-        <div className='btns'>
-            {isChanged ? <button type="button" className='button' onClick={handleSave}>Save</button> : <button type="button" onClick={() => {handleBack}} className='button'>Back</button>}
-            <button type="button" onClick={handleDelete} className='delete-btn button'>Delete</button>
-        </div>
+      <input
+        type="text"
+        value={note.title}
+        onChange={handleTitleChange}
+        maxLength={50}
+      />
+      <textarea
+        value={note.description}
+        onChange={handleContentChange}
+      />
+      <div className='btns'>
+        {isChanged ? (
+          <button type="button" className='button' onClick={handleSave}>Save</button>
+        ) : (
+          <button type="button" onClick={handleBack} className='button'>Back</button>
+        )}
+        <button type="button" onClick={handleDelete} className='delete-btn button'>Delete</button>
+      </div>
     </form>
   );
 };
