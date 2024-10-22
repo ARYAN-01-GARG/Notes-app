@@ -45,7 +45,6 @@ const Note = () => {
 
   const handleBack = () => {
     navigate('/notes');
-    window.location.reload();
   };
 
   if (!note.id) {
@@ -58,6 +57,7 @@ const Note = () => {
             type="text"
             value={note.title}
             onChange={handleTitleChange}
+            maxLength={50}
         />
         <textarea
             value={note.content}

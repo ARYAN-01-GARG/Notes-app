@@ -1,19 +1,25 @@
 import { useState , useEffect ,useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button";
+import axios from "axios";
 
 const AllNotes = () => {
     const navigate = useNavigate();
     const [search , setSearch] = useState("");
     const [notes, setNotes] = useState([]);
 
-    const fetchNotes = useCallback(() => {
-        const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
-        setNotes(storedNotes);
+    const fetchNotes = useCallback(async () => {
+        try {
+            const response = await axios.get("https://notes-backend-x9sp.onrender.com/notes/");
+            setNotes(response.data);
+        } catch (error) {
+            console.error("Error fetching notes:", error);
+        }
     }, []);
 
     useEffect(() => {
         fetchNotes();
+        console.log(notes);
     }, [fetchNotes]);
 
     const filteredNotes = notes.filter(note =>
@@ -52,18 +58,17 @@ const AllNotes = () => {
                 </div>
             </div>
             <div>
-                {filteredNotes.length === 0 ?
+                {/* {filteredNotes.length === 0 ?
                     <p>No notes found</p> :
                 filteredNotes.map((note) => (
                     <div key={note.id} className="note">
                         <div onClick={() => handleNoteClick(note.id)}>
                             <h3>{note.title}</h3>
-                            <p>{note.content.length > 80 ? `${note.content.substring(0, 80)}...` : note.content}</p>
-                            <p className="time">{note.created_at.toString()}</p>
+                            <p>{note.description.length > 80 ? `${note.content.substring(0, 80)}...` : note.content}</p>
                         </div>
                         <button onClick={()=> handleDelete(note.id)}>Delete</button>
                     </div>
-                ))}
+                ))} */}
             </div>
         </div>
     </div>
