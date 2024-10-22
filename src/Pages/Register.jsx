@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useContext } from "react";
 import Input from "../Components/Input";
 import "../css/model.css";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
 
 const Register = () => {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+
+    const { username, setUsername,
+            email, setEmail,
+            password, setPassword
+        } = useContext(UserContext);
+
 
     const handleRegister = async (event) => {
         event.preventDefault();

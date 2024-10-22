@@ -1,27 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import '../../css/Note.css';
 import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
 
 const AddNote = () => {
   const navigate = useNavigate();
   const [note, setNote] = useState({ title: "Title", description: "Add your Content here"});
-  const [notes, setNotes] = useState([]);
+  const {sessionId } = useContext(UserContext);;
 
   useEffect(() => {
-    const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
-    setNotes(storedNotes);
-  }, []);
+    if (!sessionId) {
+      return navigate('/login');
+    }
+  }, [sessionId, navigate]);
 
   const addNote = async () => {
-    const newNote = { ...note, id: uuidv4()};
     try {
-      const response = await axios.post("https://notes-backend-x9sp.onrender.com/notes", newNote);
-      const updatedNotes = [...notes, response.data];
-      setNotes(updatedNotes);
-      localStorage.setItem('notes', JSON.stringify(updatedNotes));
+      await axios.post("https://notes-backend-x9sp.onrender.com/notes", note ,{
+        headers: {
+          'Authorization': `Bearer ${sessionId}`
+        }
+      }).then(() => {alert("Note added successfully")});
       navigate('/notes');
+
     } catch (error) {
       console.error("Error adding note:", error);
     }

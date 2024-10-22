@@ -1,24 +1,12 @@
 import PropTypes from "prop-types"
 
-Input.propTypes = {
-    label: PropTypes.string.isRequired,
-    type: PropTypes.string,
-    value: PropTypes.string.isRequired,
-    setValue: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-}
-
-Input.defaultProps = {
-    type: "text",
-    disabled: false,
-}
 
 function Input ({
     label,
-    type,
+    type="text",
     value,
     setValue,
-    disabled,
+    disabled=false,
 }) {
   return (
     <div className="input-field">
@@ -36,6 +24,14 @@ function Input ({
         </label>
     </div>
   )
+}
+
+Input.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    setValue: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
 }
 
 export default Input

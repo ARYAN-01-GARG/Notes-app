@@ -1,32 +1,44 @@
-import { useState } from "react";
+import { useContext, useEffect } from "react";
 import Input from "../Components/Input";
 import "../css/model.css";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 
 const LogIn = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
-    const handleLogin = (event) => {
+    const navigate = useNavigate();
+
+    const { email, setEmail, password, setPassword ,sessionId, setSessionId } = useContext(UserContext);
+    
+    const handleLogin = async (event) => {
         event.preventDefault();
         if(!email || !password){
             alert("All fields are required");
             return;
         }
         try{
-            axios.post("https://notes-backend-x9sp.onrender.com/user/login", {
+            await axios.post("https://notes-backend-x9sp.onrender.com/user/login", {
                 email: email,
                 password: password
-            }).then(()=> {
+            }).then((res)=> {
                 alert("Logged in successfully");
                 setEmail('')
                 setPassword('')
+                const session = res.data.data.sessionId;
+                setSessionId(session);
             })
         } catch (error) {
             console.log(error);
         }
+
     }
+    useEffect(() => {
+        if (sessionId) {
+            navigate("/notes");
+        }
+    }, [sessionId, navigate]);
 
 
   return (
