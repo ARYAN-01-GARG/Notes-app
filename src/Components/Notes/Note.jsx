@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/Note.css';
@@ -11,7 +11,7 @@ const Note = () => {
   const [isChanged, setIsChanged] = useState(false);
   const { sessionId, notes, setNotes } = useContext(UserContext);
 
-  const getNote = async () => {
+  const getNote = useCallback(async () => {
     try {
       const response = await axios.get(`https://notes-backend-x9sp.onrender.com/notes/${id}`, {
         headers: {
@@ -22,7 +22,7 @@ const Note = () => {
     } catch (error) {
       console.error("Error fetching note:", error);
     }
-  };
+  }, [id, sessionId]);
 
   const updateNote = async () => {
     try {
